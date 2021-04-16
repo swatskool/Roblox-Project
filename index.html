@@ -6,13 +6,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Roblox for Noobs</title>
+
   <!-- <div ></div> -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-
-<body style = "background-color: black">
-
-  <div class="container" >
+<div class="container" >  
+<body style = "background-color: rgb(61, 59, 59)">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- <a class="navbar-brand" href="index.html">Roblox for Noobs</a> -->
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <!-- <span class="navbar-text"></span> -->
+    </button> -->
+    <div class="expand navbar-expand" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+       
+        <a class="nav-item nav-link" href="#">Project</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            About us
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+          </li> 
+          </ul> 
+        <!-- <a class="nav-item nav-link" href="#">About us</a>
+        <a class="nav-item nav-link disabled" href="#">Collaborate with us </a> -->
+      </div>
+    </div>
+  </nav>
+  
     <div class="media">
       <img class="align-self-center mr-3" src="static/Images/logo.jpg" alt="Roblox LOGO">
       </div>  
@@ -45,17 +75,36 @@
       <div class="col-md-5">
         <div id="bar"></div>
       </div>
-      <!-- <div class="col-md-5">
+      <div class="col-md-5">
+        <div class="row">
+
+        </div>
         <div id="gauge"></div>
       </div>
-    </div> -->
-    <div class="row">
-      <div class="col-md-12">
-        <div id="bubble"></div>
-      </div>
+    </div>
+    
+ 
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Here are some interesting videos for you</h3>
+      <div id="bubble"></div>
     </div>
   </div>
-
+  <div class="row">
+    <div class="col-md-2">
+      
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Videos based on </h3>
+             
+        </div>
+        <div id="sample-metadata" class="panel-body">
+        <select id="selDataset3"></select>
+      </div>
+      </div>
+    </div>
+    </div>  
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="./static/js/app.js"></script>
