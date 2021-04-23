@@ -16,7 +16,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"> </script>
   <script src= "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  <script src="../static/js/app.js"></script> 
+  <!-- <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> -->
+
   <script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
 <body style = "background-color: rgb(61,59,59);">
@@ -42,19 +43,16 @@
         <br>
         <div class = "row" style="text-align:left; padding-left: 315px;">
           <h4>Step1: Select you favorite Game Genre
-         <div class="btn-group dropright">
-          <button class="btn btn-primary dropdown-toggle"  style="background-color: rgb(133, 8, 8);" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            here !
-          </button><br>
 
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" type= "button" href="#">Up-and-Coming</a><br>
-            <a class="dropdown-item" type= "button" href="#">Most Engaging</a><br>
-            <a class="dropdown-item" type= "button" href="#">Popular</a><br>
-            <a class="dropdown-item" type= "button" href="#">Top-Rated</a>
+          
+            <select  id = "dd1">
+              <option   value="Up-and-Coming">Up-and-Coming</option><br>
+              <option  value="Most Engaging">Most Engaging</option><br>
+              <option value ="Popular" >Popular</option><br>
+              <option  value ="Top-Rated" >Top-Rated</option>
+          </select>
+          
 
-          </div>
-        </div>
       </h4>
       <br>
       <br>
@@ -75,16 +73,15 @@
             <h3 class="panel-title">Game Property</h3>
           </div>
           <div id="sample-metadata" class="panel-body">
-          <div class="btn-group dropright">
-            <button class="btn btn-primary dropdown-toggle"  style="background-color: rgb(133, 8, 8);" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Choose ...
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" type= "button" href="#">Rating</a><br>
-              <a class="dropdown-item" type= "button" href="#">No. of Players</a><br>
-  
-            </div>
-          </div>
+            <h4>
+            <select  id = "dd2">
+              <option  value="User Count">No. of Players</option><br>
+              <option   value="Rating">Rating</option><br>
+              
+   
+          </select>
+        </h4>
+          
         </div>
         </div>
       </div>
@@ -108,21 +105,18 @@
              
         </div>
         <div id="sample-metadata" class="panel-body">
-        <!-- <select id="selDataset3"></select> -->
-        <div class="btn-group dropright">
-          <button class="btn btn-primary dropdown-toggle" style="background-color: rgb(133, 8, 8);" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Choose ...
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" type= "button" href="#">Views</a><br>
-            <a class="dropdown-item" type= "button" href="#">Likes</a><br>
-            <a class="dropdown-item" type= "button" href="#">Comment Count</a><br>
-            <a class="dropdown-item" type= "button" href="#">Publish Date</a><br>
-            
-          </div>
-        </div>
+
+        <h4>
+          <select  id = "dd3">
+            <option   value="Views">Views</option><br>
+            <option  value="Likes">Likes</option><br>
+            <option value ="Comment Count" >Comment Count</option><br>
+            <option  value ="Publish Date" >Publish Date</option>
+        </select>
+      </h4>
+       </div>
       </div>
-      </div>
+
     </div>
     <div class="col-md-10">
       <div id="bubble">
@@ -147,12 +141,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.2/js/umd/util.js"></script>
- 
-   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script> -->
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="https://d3js.org/d3.v6.min.js"></script>
-  
-  <!-- <script src="./static/js/bonus.js"></script> -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="../static/js/app.js"></script> 
   <script src="../static/js/json_data.json"></script>
   </div>  
 </body>
