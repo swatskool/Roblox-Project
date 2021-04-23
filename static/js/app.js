@@ -7,10 +7,10 @@ function init() {
    d3.json(json_file).then(data => {
        var game_name = data.game;
       //  var dd1 = d3.select("#dd1");
-       var dd1 = d3.select("#dd1")
+       var dd1 = d3.select("#dd1").property('value')
        
 
-       buildCharts("Most Engaging");
+       buildCharts(dd1);
    });// close d3 call
 }; //close init
 
@@ -52,55 +52,30 @@ function buildCharts(selected_category){
       
       for (var i =0;i<10;i++){
          game_name.push(category_filter[i].game)
-         no_players.push(category_filter[i].game_data.user_count)
+         no_players.push(parseInt(category_filter[i].game_data.user_count))
          game_url.push(category_filter[i].game_data.game_url)
          game_image.push(category_filter[i].game_data.game_image_url)
          category.push(category_filter[i].game_data.game_category)
-
-
+         rating.push(parseInt(category_filter[i].game_data.positive_ratings))
 
       }
-       var dd2=d3.select("#dd2").property('value')
-      console.log(dd2)
-      // updated the home.html to change id to dropdownMenuButton2
-      
-      if (dd2 == "Rating"){
+      var dd1 = d3. select("#dd1").property("value")
+      var dd2=d3.select("#dd2").property('value') // default value at pageload
+      var dd3 = d3.select("#dd3").property('value')
+      var first_game = game_name[0]
 
-         var barhTrace = {
-            'x': game,
-            'y': rating, 
-            
-         'type': 'bar',
-            'orientation': 'h',
-            'text' : game_name
-
-            
+      var barTrace = {
+         'x': game_name,
+         'y': dd2, 
+        'type': 'bar',
+        'text' : game_name
          }// close barhtrace
-      }//close if
-
-      else if (dd2 == "No. of Players"){
-
-         var barhTrace = {
-            'x': game_name,
-            'y': no_players, 
-            
-         'type': 'bar',
-            'orientation': 'h',
-            'text' : game_name,
-            'marker' : {width:1}
-     
-         }//close barhtrace
-      }//close else if
-      
-      // Horizontal Bar
-      var barhLayout ={
-         'title' : "Top 10 Games in Category"
+      var barLayout ={
+         'title' : `Top 10 Games in Category $(dd1)`
          }
-     
+          // Creating the plots
 
-        // Creating the plots
-      // Plotly.newPlot('bubble', [bubblesTrace], bubblesLayout);
-      Plotly.newPlot('bar', [barhTrace], barhLayout);
+      Plotly.newPlot('bar', [barTrace], barLayout);
     
    })// close d3 call
 
