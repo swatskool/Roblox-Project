@@ -36,10 +36,17 @@
       <h1> <p style="text-align:center">About this project </p>
         <br>
       <p>
-        What we have created for you is for gamers of all ages and any background and for all walks of life.  We have decided to create a platform for people who like to play Roblox.  To get started select select your game of choice weather it be the most popular, most engaging, up and coming, top rated or top earning.  After the selection, if user is unfamiliar with the game our web page will provide the user with several of the top videos from YouTube to give them a tutorial of how to play that game.Our site will be updated daily to make sure we bring the most up to date videos and information about the games to our users. </p> 
+        What we have created for you is for gamers of all ages, backgrounds, and walks of life.  We have decided to create a platform for people who like to play Roblox.  To get started, select your game category of choice: Most Popular, Most Engaging, Up-and–Coming,  or Top Rated.  After the selection, the top 10 games from the category will be reflected on the webpage. If you want to learn more about any game, our web page will provide the you with several of the top videos from YouTube for tutorials of how to play that game.   </p> 
       <br>
-      <p> We have accomplished this by scraping information from the Roblox site for the most popular, most engaging, up and coming, top earning and top-rated games.  We queried the YouTube API for the top 5 videos of the search for each game, and display each game with the top 5 tutorial videos for our service.</p>
-      <!-- <ul style="text-align: left; color:rgb(133,8,8)">
+      <u>Project Technical Details</u><br>
+      
+      <br><p>We scraped game information from the Roblox website as our starting point. Roblox has multiple categories of games to select from, with approximately 60 games for each category.  We limited our scope to include 10 games from each of the Most Popular, Most Engaging, Up-and-Coming, and Top Earning games categories.</p>
+      <br><p> To create our Roblox site, we used JavaScript, PgAdmin (query), Python, Flask, and html. When viewing the Roblox site, the content continues to load after initial connection to the page. As a result, it was necessary to enable the Web Driver for the browser to allow faster loading speeds and to facilitate scraping of all content available.  </p>
+      <br><p>We transformed the data to reflect the user rating as an integer to allow us to sort the games by user ratings. We also updated the game titles to ensure the YouTube query returned good results.</p>
+      <br><p>Using a static key word search and the game names returned from the web scrape, we queried the top views, like counts, comment counts, publish date and URL for the top 5 results returned from YouTube on "learn to play <roblox_game>".</p>
+      <br><p>We created drop-down menus to access our data and to make an easy selection for the user based on their preferences.  First, the user will select from four categories. Then, the user selects their choice of  game property choices (either game ratings or number of players).  Nnext, the user will select their game of choice from the returned results (of 10 games per category). Once a game is selected, five of the top YouTube videos will appear for the user to view.  Another drop-down menu will offer selection of how to view the YouTube videos (based on View counts, comment counts, publish date, like counts). The URL for the current YouTube video is also displayed.  </p>
+      </h1>
+      <!-- <ul style="text-align: left; color:rgb(133,8,8)"></h1>
         <h2>
         <li>Alyson Amtman</li>
         <p> Alyson is a ....</p>
