@@ -1,9 +1,9 @@
 var json_file = "../static/js/json_data.json"
 
-var svgWidth = 800
-var svgHeight = 600
+var svgWidth = 1350
+var svgHeight = 700
 
-var margin = { top: 30, right: 30, bottom: 70, left: 60 };
+var margin = { top: 100, right: 30, bottom: 80, left: 120 };
 var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
 
@@ -12,7 +12,9 @@ var svg = d3.select("#viz")
    .append("svg")
    .attr("width", svgWidth)
    .attr("height", svgHeight)
+   .attr("position", "relative")
    .attr("style", "background-color:smoke")
+   .attr("style", "background-size:100% 100%")
    .append("g")
    .attr("transform",
       "translate(" + margin.left + "," + margin.top + ")");
@@ -43,9 +45,8 @@ function init() {
 }; //close init
 
 
-// A function that creates / updates the plot for a given variable:
+// Creates/updates the plot for a given variable:
 function update(data) {
-   console.log(data)
    // Update the X axis
    x.domain(data.map(function (d) { return d.group; }))
    xAxis.call(d3.axisBottom(x))
@@ -59,7 +60,6 @@ function update(data) {
       // .data(data, ({group})=>group)
       .data(data)
 
-
    update_svg
       .enter()
       .append("rect") // Add a new rect for each new element
@@ -71,36 +71,47 @@ function update(data) {
       .attr("width", x.bandwidth())
       .attr("height", function (d) { return height - y(d.value); })
       .attr("fill", "rgb(133,8,8)")
+
+   var dd1 = d3.select("#dd1").property('value')
+   var dd2 = d3.select("#dd2").property('value')
+   //add Chart Title
+   update_svg
+      .enter()
+      .append("text")
+      .attr("x", (width / 2))             
+      .attr("y", 0 - (margin.top / 2))
+      .attr("text-anchor", "middle")  
+      .style("font-size", "16px") 
+      .style("text-decoration", "underline")  
+      .text('Top 10 Roblox Games by Category')
+
+   // add X Axis Labels     
+   update_svg
+      .enter()
+      .append("text")  
+      .attr("x", (width/2))
+      .attr("y", height + margin.top-50)
+      .style("font-size", "16px")            
+      .style("text-anchor", "middle")
+      .text("Game Name");
+
+   // add Y Axis Labels
+   update_svg
+      .enter()
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("font-size","16px")
+      .style("text-anchor", "middle")
+      .text("Selected Game Property"); 
    
-   // If fewer groups in the new dataset, delete the ones not in use anymore
+      // If fewer groups in the new dataset, delete the ones not in use anymore
    update_svg
       .exit()
       .remove()
 }
-
-
-// function fetch_data(selected_game) {
-//    //connect to collect data from json
-//    d3.json('/json_data.json').then(function (data) {
-//       var game_name = data.game;
-//       var no_players = data.game_data.user_count;
-//       var rating = data.game_data.positive_ratings;
-//       var game_url = data.game_data.game_url;
-//       var game_image = data.game_data.game_image_url;
-//       var category = data.game_data.game_category;
-//       var filtered_data = data.filter(entry => entry.game == selected_game)
-//       // var result = resultArr[0]
-//       console.log(filtered_data)
-//       var panel = d3.select('#game-stats')
-//       panel.html('')
-//       Object.entries(filtered_data).forEach(([k, v]) => {
-//          panel.append('h6').text(`${k.toUpperCase()}: ${v}`);
-
-//       })// close object.entries
-//    })// close d3 call
-
-// };//ends fetch
-
 
 function buildCharts() {
    //connect to collect data from json
@@ -109,13 +120,6 @@ function buildCharts() {
       var dd1 = d3.select("#dd1").property("value")
       var dd2 = d3.select("#dd2").property('value') // default value at pageload
       var category_filter = data.filter(sampleCategory => sampleCategory.game_data.game_category == dd1)
-      var game_name = []
-
-      var no_players = [] // category_filter.game_data.user_count;
-      var rating = [] //category_filter.data.game_data.positive_ratings;
-      var game_url = [] //category_filter.game_data.game_url;
-      var game_image = [] //category_filter.game_data.game_image_url;
-      var category = [] //category_filter.game_data.game_category;
 
       var data_rating = []
       var data_no_players = []
@@ -130,7 +134,7 @@ function buildCharts() {
 
       }
 
-      if (dd2=="no_players") {
+      if (dd2=="No. Players") {
          update(data_no_players)
       }
 
@@ -138,145 +142,120 @@ function buildCharts() {
          update(data_rating)
       }
 
+      // assign label to rectange with title of game
+      var xlabel=x.domain()
       var rects=svg.selectAll("rect")
+         .attr("data-name", function(d,i) {return xlabel[i]})
 
-      rects.data(data, ({group})=>group)
-      .enter()
-      .append('g')
-      .attr('class', 'group')
-
-      rects.on("click", function(d){
-         // console.log("d.game_name", d.group)
-         d3.select(this)
+      //On Click, changes the selected game box to dark grey
+      rects.on("click", function(d, i){
+         d3.select(this,(d,i))
             .attr("fill", 'rgb(61,59,59)')
-            
+            .attr("id", "selected_game")
+      
+      var selected_game=d3.select(this).attr("data-name")
 
-      update_bubbles(d.group)
+      //remove extra groups no longer in use
+      rects.exit().remove()
 
-   })
+      update_bubbles(selected_game)
+
+      })
+      
    })// close d3 call
 
 
 };//build charts end
 
-
-
-//https://www.chartjs.org/docs/2.6.0/charts/bubble.html
-
-function update_bubbles() {
+function update_bubbles(selected_game) {
    //connect to collect data from json
-   d3.json(json_file).then(function (data) {
+      d3.json(json_file).then(function (data) {
       var dd3 = d3.select("#dd3").property('value')
-      var video_filter = data.filter(videos => videos.video_data == dd3)
-      console.log(video_filter)
-      var game_name = video_filter.game
-      var video_views = video_filter.video_data.yt_views;
-      var video_likes = video_filter.video_data.yt_likes;
-      var video_comments = video_filter.video_data.yt_comments;
-      var video_date = video_filter.video_data.pub_date;
-      var video_url = video_filter.video_data.video_url;
-      var video_name=video_filter.video_data.video_name;
-      var first_game = game_name[0]
-         // game_name.push(category_filter[i].game)
-         // no_players.push(parseInt(category_filter[i].game_data.user_count))
-         // game_url.push(category_filter[i].game_data.game_url)
-         // game_image.push(category_filter[i].game_data.game_image_url)
-         // category.push(category_filter[i].game_data.game_category)
-         // rating.push(parseInt(category_filter[i].game_data.positive_ratings))   
-      var bubble_chart_data = {}
-      var bubble_options = {}
-      var bubble_data = {}
-    
+      var video_filter = data.filter(videos => videos.game==selected_game)
+      var game_name = video_filter[0].game
+
+      var video_date_list=[]
+      var video_views_list=[]
+      var video_name_list=[]
+      var video_url_list =[]
+      var video_likes_list = []
+      var video_comments_list=[]
+
+
       for (var i = 0; i < 5; i++) {
-         bubble_data = { x: video_filter[i].video_data.video_name, y: i, r:parseInt(video_views[i])/parseInt(video_views)}
-         bubble_chart_data.push(bubble_data)
-         bubble_text={title: { display: true, text: `You Tube Videos for $(video_filter[i].game)`}}
-         bubble_options.push(bubble_text)
+        var video_name=video_filter[0].video_data[i].video_name;
+        video_name_list.push(video_name)
+        var video_views = video_filter[0].video_data[i].yt_views; 
+        video_views_list.push(video_views/1000)
+        var video_date = video_filter[0].video_data[i].pub_date;
+        video_date_list.push(video_date)
+        var video_url = video_filter[0].video_data[i].video_url;
+        video_url_list.push(video_url)
+        var video_likes = video_filter[0].video_data[i].yt_likes;
+        video_likes_list.push(video_likes/40)
+        var video_comments = video_filter[0].video_data[i].yt_comments;
+        video_comments_list.push(video_comments/25)      
+      }//close for loop
 
+         if (dd3=="Views"){
+            var bubble_show =video_views_list
+            
+         }
+         else if (dd3=="Likes"){
+            var bubble_show=video_likes_list
+         }
 
-      }
+         else{
+            var bubble_show=video_comments_list
+         }
 
-      // if (dd3=="Views"){
-      //    update_bubbles(video_views)
-      // }
-      // else if (dd3=="Likes"){
-      //    update_bubbles(video_likes)
-      // }
-      // else if (dd3=="Comment Count"){
-      //    update_bubbles(video_comments)
-      // }
-      // else {
-      //    update_bubbles(video_date)
-      // }
-
-      // Bubble Chart
-
-      // var myBubblechart= new chartGroup(ctx,{
-      //    type: 'bubble',
-      //    data: { bubble_chart_data
-      //    }
-      //    options: {
-      //       title: {
-      //          display: true,
-      //          text: `You Tube videos for ${selected_game}`
-      //       }
-      //    }
-      // });
       var bubblesLayout = {
-         'title': `You Tube videos for ${selected_game}`,
-         'margin': {
-            t: 0
-         },
+         'title': `You Tube Videos by ${dd3} for Selected Game: ${game_name}`,
+         'margin': { t: 50, r: 50, l: 100, b: 50 },
          'hovermode': 'closest',
-         'margin': { t: 30 }
-      };
+         
+      };//close bubbles Layout
+
       var bubblesTrace = {
-         'x': ids,
-         'y': sampleValues,
-         'text': labels,
+         'x': video_date_list,
+         'y': video_date_list,
+         'text': video_name_list,
          'sizemode': 'area',
          'mode': 'markers',
          'marker': {
-            'size': sampleValues,
-            'color': ids,
-            'colorscale': 'Earth'
-         }
-      }
+            'size': bubble_show,
+            'label': video_url_list,
+            'color': bubble_show,
+            'colorscale': 'Reds'
+         }//ends marker
+      }//closes Bubble Trace
 
-
-
+      var data=bubblesTrace
 
       // Creating the plots
-      // Plotly.newPlot('bubble', [bubblesTrace], bubblesLayout);
-      // console.log('here')
-   })
+      Plotly.newPlot('bubble', [data], bubblesLayout);
+      
+      // Selects the bubble in the plot and gets the YouTube URL
+      var myPlot=document.getElementById('bubble')
 
-}//populate bubbles
-// });
+      myPlot.on('plotly_click', function(data){
+         var pts = []
+         var x = data.points[0].x;
 
+         for(var i=0; i < 5; i++){
+            if (x==data.points[0].data.x[i]) {
+               pts=data.points[0].data.marker.label[i]
+            }
+             }
+         // Appends the url and text information to the html element
+         d3.select('#url').property('text', pts)     
+         d3.select('#url').property('href', pts)
 
+      });
 
-
-d3.selectAll("#selDataset").on("change", updatePlotly);
-
-function updatePlotly() {
-
-   var dropdownMenu = d3.select("#categoryButton");
-   var new_sample = dropdownMenu.property("value");
-   d3.json('/json_data.json').then(function (data) {
-      var samples = data.samples
-      var resultArr = samples.filter(sampleObject => sampleObject.id == new_sample)
-
-      for (var i = 0; i < 153; i++) {
-         if (samples[i].id == new_sample) {
-            idx = i
-         }
-      }
-      grabData(new_sample)
-      buildCharts(new_sample, idx)
-   });
+   })// update plotly
+}//closes bubble function
+init();
+ 
 
 
-
-}// update plotly
-init()
