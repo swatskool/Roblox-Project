@@ -3,7 +3,7 @@ var json_file = "../static/js/json_data.json"
 var svgWidth = 1350
 var svgHeight = 700
 
-var margin = { top: 100, right: 30, bottom: 80, left: 120 };
+var margin = { top: 100, right: 30, bottom: 140, left: 120 };
 var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
 
@@ -25,7 +25,7 @@ var x = d3.scaleBand()
    .padding(0.2);
 
 var xAxis = svg.append("g")
-   .attr("transform", "translate(0," + height + ")");
+   .attr("transform", "translate(0," + height + ")")
 
 // Add Y axis
 var y = d3.scaleLinear()
@@ -57,7 +57,6 @@ function update(data) {
 
    // Create the update variable
    var update_svg = svg.selectAll("rect")
-      // .data(data, ({group})=>group)
       .data(data)
 
    update_svg
@@ -71,6 +70,16 @@ function update(data) {
       .attr("width", x.bandwidth())
       .attr("height", function (d) { return height - y(d.value); })
       .attr("fill", "rgb(133,8,8)")
+
+   // rotate text on xAxis   
+   xAxis
+      .selectAll("text")	
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", ".15em")
+      .attr("transform", function(d) {
+         return "rotate(-45)" 
+         });
 
    var dd1 = d3.select("#dd1").property('value')
    var dd2 = d3.select("#dd2").property('value')
@@ -172,7 +181,7 @@ function update_bubbles(selected_game) {
       d3.json(json_file).then(function (data) {
       var dd3 = d3.select("#dd3").property('value')
       var video_filter = data.filter(videos => videos.game==selected_game)
-      var game_name = video_filter[0].game
+
 
       var video_date_list=[]
       var video_views_list=[]
@@ -180,21 +189,24 @@ function update_bubbles(selected_game) {
       var video_url_list =[]
       var video_likes_list = []
       var video_comments_list=[]
+      var game_name_list =[]
 
 
       for (var i = 0; i < 5; i++) {
         var video_name=video_filter[0].video_data[i].video_name;
         video_name_list.push(video_name)
         var video_views = video_filter[0].video_data[i].yt_views; 
-        video_views_list.push(video_views/1000)
+        video_views_list.push(video_views/3500)
         var video_date = video_filter[0].video_data[i].pub_date;
         video_date_list.push(video_date)
         var video_url = video_filter[0].video_data[i].video_url;
         video_url_list.push(video_url)
         var video_likes = video_filter[0].video_data[i].yt_likes;
-        video_likes_list.push(video_likes/40)
+        video_likes_list.push(video_likes/100)
         var video_comments = video_filter[0].video_data[i].yt_comments;
-        video_comments_list.push(video_comments/25)      
+        video_comments_list.push(video_comments/25) 
+        var game_name = video_filter[0].game
+        game_name_list.push(game_name)
       }//close for loop
 
          if (dd3=="Views"){
@@ -211,14 +223,17 @@ function update_bubbles(selected_game) {
 
       var bubblesLayout = {
          'title': `You Tube Videos by ${dd3} for Selected Game: ${game_name}`,
-         'margin': { t: 50, r: 50, l: 100, b: 50 },
+         'margin': { t: 50, r: 30, l: 150, b: 50 },
          'hovermode': 'closest',
+         'xaxis_type': 'date',
+         'xaxis_title': 'Date',
+         'yaxis_title': 'Game'
          
       };//close bubbles Layout
 
       var bubblesTrace = {
          'x': video_date_list,
-         'y': video_date_list,
+         'y': game_name_list,
          'text': video_name_list,
          'sizemode': 'area',
          'mode': 'markers',
@@ -227,7 +242,8 @@ function update_bubbles(selected_game) {
             'label': video_url_list,
             'color': bubble_show,
             'colorscale': 'Reds'
-         }//ends marker
+         },//ends marker
+
       }//closes Bubble Trace
 
       var data=bubblesTrace
