@@ -271,6 +271,7 @@ function update_bubbles(selected_game) {
 
    })// update plotly
 }//closes bubble function
+
 init();
  
 
